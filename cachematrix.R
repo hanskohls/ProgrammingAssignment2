@@ -37,12 +37,12 @@ cacheSolve <- function(x, ...) {
   
   ## check if the cached value is not null and return it.
   if (!is.null(inv)){
-    message('Returning inverse from cache.')
+    message(' ... Returning inverse from cache.')
     return(inv)
   }
   
   ## if the stored inverse is null, calculate it. 
-  message('Calculating and setting inverse of matrix')
+  message(' ... Calculating and setting inverse of matrix')
   matrix <- x$get()
   inv <- solve(matrix)
   x$setinv(inv)
@@ -52,8 +52,11 @@ cacheSolve <- function(x, ...) {
 ## the sample timer will generate a random n by n matrix
 ## it's a sample how the cachesolve function can be called. 
 sampleTimer <- function(n=1000){
+  message('Generating Matrix ...')
   m <- replicate(n,rnorm(n))
-  m_cache = makeCacheMatrix(m)
+  message('Creating Cached Matrix')
+  m_cache <- makeCacheMatrix(m)
+  message('Solving the matrix twice ...')
   m_inv = cacheSolve(m_cache)
   m_inv = cacheSolve(m_cache)
 }
