@@ -1,8 +1,12 @@
 ## Put comments here that give an overall description of what your
 ## functions do
 
-## Write a short comment describing this function
-
+## The makeCacheMatrix geterates a list with four functions:
+##    set - stores a matrix
+##          invalidates a cached inverse matrix
+##    get - returns the matrix
+##    setinv - stores a matrix as inverse of the matrix
+##    getinv - returns the inverse of the matrix
 makeCacheMatrix <- function(x = matrix()) {
   inv <- NULL
   
@@ -22,18 +26,34 @@ makeCacheMatrix <- function(x = matrix()) {
 }
 
 
-## Write a short comment describing this function
-
+## cacheSolve takes a list of functions as generated in makeCacheMatrix
+## when called it will return the inverse of the matrix stored in x$get()
+## if the inverse has not been calculated it will call solve
+## otherwise it will return the cached value.
 cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+  
+  ## Get the value stored in 'inv'
   inv <- x$getinv()
+  
+  ## check if the cached value is not null and return it.
   if (!is.null(inv)){
     message('Returning inverse from cache.')
     return(inv)
   }
+  
+  ## if the stored inverse is null, calculate it. 
   message('Calculating and setting inverse of matrix')
   matrix <- x$get()
   inv <- solve(matrix)
   x$setinv(inv)
   inv
+}
+
+## the sample timer will generate a random n by n matrix
+## it's a sample how the cachesolve function can be called. 
+sampleTimer <- function(n=1000){
+  m <- replicate(n,rnorm(n))
+  m_cache = makeCacheMatrix(m)
+  m_inv = cacheSolve(m_cache)
+  m_inv = cacheSolve(m_cache)
 }
